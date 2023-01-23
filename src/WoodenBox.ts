@@ -7,7 +7,6 @@ export class WoodenBox extends Object3D {
 
     constructor() {
         super();
-
         this.material = new MeshStandardMaterial();
         this.mesh = new Mesh(new BoxGeometry(), this.material);
         this.add(this.mesh);

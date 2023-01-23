@@ -21,3 +21,31 @@ export const getCurrentQuadrant = (pos: Vector2) => {
         return Quadrant.None;
     }
 }
+
+export const createButton = (name: string) => {
+    let button = document.createElement('input');
+    button.type = 'checkbox';
+    button.value = name;
+    button.name = name;
+    return button;
+}
+
+export const createTranslationControls = () => {
+    const tButton = createButton("Translate");
+    const rButton = createButton("Rotate");
+    const sButton = createButton("Scale");
+
+    const container = document.createElement("div");
+    container.style.position = 'absolute';
+
+    const bContainer = document.createElement("div");
+    container.appendChild(bContainer);
+    bContainer.appendChild(tButton);
+    bContainer.appendChild(rButton);
+    bContainer.appendChild(sButton);
+
+    bContainer.style.display = 'flex';
+    bContainer.style.flexDirection = 'column';
+
+    return { tButton, rButton, sButton, container };
+}

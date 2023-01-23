@@ -81,16 +81,45 @@ export const initScene = () => {
 
 export const updateScene = () => {
     if (mouseDownCheck && currentQuadrant !== Quadrant.None && currentQuadrant !== Quadrant.TopLeft) {
-        mosueDelta.x /= 15;
-        if (currentQuadrant == Quadrant.TopRight && views[1].UILayer.Checked) {
-            const axis = new Vector3(0, 0, 1);
-            box.rotateOnWorldAxis(axis, (mosueDelta.x));
-        } else if (currentQuadrant == Quadrant.BottomLeft && views[2].UILayer.Checked) {
-            const axis = new Vector3(1, 0, 0);
-            box.rotateOnWorldAxis(axis, mosueDelta.x);
-        } else if (currentQuadrant == Quadrant.BottomRight && views[3].UILayer.Checked){
-            const axis = new Vector3(0, 1, 0);
-            box.rotateOnWorldAxis(axis, mosueDelta.x);
+        if (currentQuadrant == Quadrant.TopRight) {
+            if (views[1].UILayer.RotationChecked) {
+                mosueDelta.x /= 15;
+                const axis = new Vector3(0, 0, 1);
+                box.rotateOnWorldAxis(axis, (mosueDelta.x));
+            }
+            if (views[1].UILayer.TranslationChecked) {
+                box.position.set(mosueDelta.x, -mosueDelta.y, box.position.z);
+            }
+            if (views[1].UILayer.ScalingChecked) {
+                const sModifier = new Vector2(mosueDelta.x / 20, mosueDelta.y / 20);
+                box.scale.set(box.scale.x + sModifier.x , box.scale.y + sModifier.y, box.scale.z);
+            }
+        } else if (currentQuadrant == Quadrant.BottomLeft) {
+            if (views[2].UILayer.RotationChecked) {
+                mosueDelta.x /= 15;
+                const axis = new Vector3(1, 0, 0);
+                box.rotateOnWorldAxis(axis, mosueDelta.x);
+            }
+            if (views[2].UILayer.TranslationChecked) {
+                box.position.set(box.position.x, -mosueDelta.y, -mosueDelta.x);
+            }
+            if (views[2].UILayer.ScalingChecked) {
+                const sModifier = new Vector2(mosueDelta.x / 20, mosueDelta.y / 20);
+                box.scale.set(box.scale.z, box.scale.y + sModifier.y , box.scale.z + sModifier.x);
+            }
+        } else if (currentQuadrant == Quadrant.BottomRight){
+            if (views[3].UILayer.RotationChecked) {
+                mosueDelta.x /= 15;
+                const axis = new Vector3(0, 1, 0);
+                box.rotateOnWorldAxis(axis, mosueDelta.x);
+            }
+            if (views[3].UILayer.TranslationChecked) {
+                box.position.set(mosueDelta.x, box.position.y, mosueDelta.y);
+            }
+            if (views[3].UILayer.ScalingChecked) {
+                const sModifier = new Vector2(mosueDelta.x / 20, mosueDelta.y / 20);
+                box.scale.set(box.scale.x + sModifier.x , box.scale.y, box.scale.z + sModifier.y);
+            }
         }
     }
 }

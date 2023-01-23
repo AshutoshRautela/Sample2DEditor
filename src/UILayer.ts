@@ -1,41 +1,63 @@
 import { Quadrant } from "./interfaces";
+import { createButton, createTranslationControls } from "./Utils";
 
 export class UILayer {
-    private button: HTMLInputElement;
-    private checked: boolean;
+    private translationButton: HTMLInputElement;
+    private rotationButton: HTMLInputElement;
+    private scalingButton: HTMLInputElement;
+
+    private translationChecked: boolean;
+    private rotationChecked: boolean;
+    private scalingChecked: boolean;
+
+    private tControls: HTMLDivElement;
 
     constructor(private quadrant: Quadrant) {
-        this.button = document.createElement('input');
-        this.button.type = 'checkbox'
-        this.button.value = 'Rotate'
-        this.button.name = 'Rotate'
-        document.body.appendChild(this.button);
+        const controls = createTranslationControls();
+        this.tControls = controls.container;
+        this.translationButton = controls.tButton;
+        this.rotationButton = controls.rButton;
+        this.scalingButton = controls.sButton;
 
-        this.button.addEventListener('change', event => {
-            this.checked = this.button.checked;
+        this.rotationButton.addEventListener('change', event => {
+            this.rotationChecked = this.rotationButton.checked;
         });
+        this.translationButton.addEventListener('change', event => {
+            this.translationChecked = this.translationButton.checked;
+        });
+        this.scalingButton.addEventListener('change', event => {
+            this.scalingChecked = this.scalingButton.checked;
+        });
+        document.body.appendChild(this.tControls);
 
-
-        this.button.style.position = 'absolute';
+        this.tControls.style.position = 'absolute';
         if (quadrant === Quadrant.TopLeft) {
-            this.button.style.left = '2%';
-            this.button.style.top = '2%';
+            this.tControls.style.left = '2%';
+            this.tControls.style.top = '2%';
         }
         else if (quadrant === Quadrant.TopRight) {
-            this.button.style.left = '52%';
-            this.button.style.top = '2%';
+            this.tControls.style.left = '52%';
+            this.tControls.style.top = '2%';
         }
         else if (quadrant === Quadrant.BottomLeft) {
-            this.button.style.left = '2%';
-            this.button.style.top = '52%';
+            this.tControls.style.left = '2%';
+            this.tControls.style.top = '52%';
         }
         else if (quadrant === Quadrant.BottomRight) {
-            this.button.style.left = '52%';
-            this.button.style.top = '52%';
+            this.tControls.style.left = '52%';
+            this.tControls.style.top = '52%';
         }
     }
 
-    public get Checked() {
-        return this.checked;
+    public get TranslationChecked() {
+        return this.translationChecked;
+    }
+
+    public get RotationChecked() {
+        return this.rotationChecked;
+    }
+
+    public get ScalingChecked() {
+        return this.scalingChecked;
     }
 }
