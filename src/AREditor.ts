@@ -81,12 +81,16 @@ export const initScene = () => {
 
 export const updateScene = () => {
     if (mouseDownCheck && currentQuadrant !== Quadrant.None && currentQuadrant !== Quadrant.TopLeft) {
+        mosueDelta.x /= 15;
         if (currentQuadrant == Quadrant.TopRight && views[1].UILayer.Checked) {
-            box.rotation.set(box.rotation.x, box.rotation.y, mosueDelta.x);
+            const axis = new Vector3(0, 0, 1);
+            box.rotateOnWorldAxis(axis, (mosueDelta.x));
         } else if (currentQuadrant == Quadrant.BottomLeft && views[2].UILayer.Checked) {
-            box.rotation.set(mosueDelta.x, box.rotation.y, box.rotation.z);
+            const axis = new Vector3(1, 0, 0);
+            box.rotateOnWorldAxis(axis, mosueDelta.x);
         } else if (currentQuadrant == Quadrant.BottomRight && views[3].UILayer.Checked){
-            box.rotation.set(box.rotation.x, mosueDelta.x, box.rotation.z);
+            const axis = new Vector3(0, 1, 0);
+            box.rotateOnWorldAxis(axis, mosueDelta.x);
         }
     }
 }
